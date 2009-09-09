@@ -1,0 +1,179 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master">
+
+<metal:head fill-slot="top_slot"
+            tal:define="dummy python:request.set('disable_border',1)" />
+
+
+<div metal:fill-slot="main">
+
+
+    <h1>
+        Economics Statistics
+    </h1>
+
+    <div>
+        <p>Some statistical data for economics. For now it is only
+            available to site managers.</p> 
+        <p>Webstatistiken:<br />
+        <a href="http://capella.ifw-kiel.de/webalizer/">http://capella.ifw-kiel.de/webalizer/</a> (internes)<br />
+        <a href="http://www.uni-kiel.de/stat/economics-ejournal/">http://www.uni-kiel.de/stat/economics-ejournal/</a> (Uni RZ).
+        </p>
+
+        <p>new: <a href="dlThisMonth">downloads this month</a> and <a href="dlLastMonth">downloads last month</a></p>
+
+        <!--
+        <p style="margin-bottom:18px;">
+        <img
+        src="http://capella.ifw-kiel.de/webalizer/usage.png"
+        alt="usage graph internes" />
+        </p>
+        //-->
+
+        <p>
+            <strong>Registered Readers:</strong> 
+            <span tal:content="context/@@stats/countReaders">Reg. Readers</span>
+        </p>
+
+        <p>
+            <strong>Journalarticles:</strong> 
+            <span tal:content="context/@@stats/countJP">Zahl d. Journalpaper</span><br />
+            <strong>Discussionpapers:</strong> 
+            <span tal:content="context/@@stats/countDP">Zahl d. DP</span><br />
+        </p>
+
+        <p>
+            <strong>Downloads Journalarticles:</strong> 
+            <span tal:content="context/@@stats/downloadsJP">JP</span>
+        (average: <span tal:content="context/@@stats/averageJP">durchsc</span>)
+        <br />
+
+        <strong>Downloads Journalarticles incl. corresponding
+            Discussionpapers:</strong> <span
+            tal:content="context/@@stats/downloadsJPDP">JP+DP</span>
+        (average: <span
+            tal:content="context/@@stats/averageJPDP">average</span>)
+
+        <br />
+        <strong>Downloads Discussionpapers:</strong> 
+        <span tal:content="context/@@stats/downloadsDP">DP</span>
+         (average: <span tal:content="context/@@stats/averageDP">durchsc</span>)
+        <br />
+        <strong>Downloads overall: </strong><span
+            tal:content="context/@@stats/downloadsSUM">SUM</span> (average:
+        <span
+            tal:content="context/@@stats/averageSUM">Durchschnitt</span>)
+        </p>
+
+        <p>
+            <strong>Comments:</strong> 
+            <span tal:content="context/@@stats/comments">Kommentare</span>
+        </p>
+
+        <p>
+            <strong>Rated comments:</strong> <span 
+                tal:define="ratedComments context/@@stats/getRatedComments"
+                tal:content="python:len(ratedComments)">number</span> 
+            [<a href="#"
+                tal:attributes="href string:${portal_url}/commentRating">Show all
+                rated Comments</a>]
+         </p>
+
+
+        
+        
+
+
+         <p>
+          <strong>Ratings:</strong> <span
+                tal:content="context/@@stats/countRatings">Ratings</span>
+          </p>
+
+        <p>
+            <strong>Recommendations:</strong> 
+            <span tal:content="context/@@stats/countRecommended">Recommended</span>
+        </p>
+
+        <p>
+            <strong>Authors:</strong>
+            <span
+                tal:content="context/@@stats/countAuthors">Authors</span>
+        </p>
+
+        <p>
+            <strong>Citations (Citec/Repec):</strong>
+            <span tal:content="context/@@stats/countCitations">Citations</span>
+            (Discussionpaper: <span
+                tal:content="context/@@stats/countCitedDP">discussiopaper</span>; 
+            Journalarticle: <span
+                tal:content="context/@@stats/countCitedJP">Journalarticle</span>)
+            
+
+        </p>
+
+        <p><a tal:attributes="href
+                                string:${portal_url}/mostCited" href="#">[Show
+                                all cited papers]</a>
+                            
+        </p>
+
+
+            <p><strong>Most cited:</strong></p>
+            <div style="margin-left:20px; font-size:10px"
+                tal:define = "citedpapers context/@@stats/maxCitations"
+                tal:repeat="tuple python:citedpapers[:1]">
+                <p tal:define="paper python:tuple[0];
+                               citations python:tuple[1]">
+                    <span
+                        tal:content="paper/@@paperView/getAuthorsForTitle">autoren</span><br />
+                    <a tal:attributes="href paper/absolute_url" href="#">
+                        <span tal:content="paper/Title">title</span></a>
+                        <br />
+                        published 
+                        <span
+                            tal:content="paper/@@paperView/getTitleDate">datum</span>; 
+                        <span style="font-weight:bold" tal:content="citations">citations</span>
+                        Citation(s)
+                        <br />
+                        
+                                       </p>
+            
+            
+            
+            </div>
+        
+         <p><strong>Most recently published Paper with citations:</strong></p>
+            <div style="margin-left:20px; font-size:10px" 
+                tal:repeat="tuple context/@@stats/recentCitation">
+                <p tal:define="paper python:tuple[0];
+                               citations python:tuple[1]">
+                    <span
+                        tal:content="paper/@@paperView/getAuthorsForTitle">autoren</span><br />
+                    <a tal:attributes="href paper/absolute_url" href="#">
+                        <span tal:content="paper/Title">title</span></a>
+                        <br />
+                        published 
+                        <span
+                            tal:content="paper/@@paperView/getTitleDate">datum</span>; 
+                        <span style="font-weight:bold" tal:content="citations">citations</span>
+                        Citation(s)
+
+                </p>
+            
+            
+
+            </div>
+        
+
+
+
+
+    </div>
+
+
+
+</div>
+
+</html>
+

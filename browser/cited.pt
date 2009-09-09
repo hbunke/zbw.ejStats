@@ -1,0 +1,38 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master">
+
+<metal:head fill-slot="top_slot"
+            tal:define="dummy python:request.set('disable_border',1)" />
+
+
+<div metal:fill-slot="main">
+
+
+    <h1>
+        Economics Statistics: Most cited papers
+    </h1>
+
+    <p>List contains all papers with at least one citation at Repec/Citec.</p>
+    <div style="margin-left:20px; font-size:10px"
+                tal:define = "citedpapers context/@@stats/maxCitations"
+                tal:repeat="tuple python:citedpapers">
+                <p tal:define="paper python:tuple[0];
+                               citations python:tuple[1]">
+                    <span
+                        tal:content="paper/@@paperView/getAuthorsForTitle">autoren</span><br />
+                    <a tal:attributes="href paper/absolute_url" href="#">
+                        <span tal:content="paper/Title">title</span></a>
+                        <br />
+                        <span tal:content="paper/Type">ja or dp</span>; 
+                        published 
+                        <span
+                            tal:content="paper/@@paperView/getTitleDate">datum</span>; 
+                        <span style="font-weight:bold" tal:content="citations">citations</span>
+                        Citation(s)
+                    </p>
+
+                </div>
+        </div>
+</html>
