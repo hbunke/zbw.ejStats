@@ -26,7 +26,7 @@ from Products.AdvancedQuery import Eq, And, Or, Ge, Le
 from iqpp.rating.interfaces import IRatingsManager
 from iqpp.clickcounting.interfaces import IClickCounting
 
-from Products.eJournal.interfaces import ICitec
+from zbw.ejCitations.interfaces import ICitec
 
 
 class IStatView(Interface):
