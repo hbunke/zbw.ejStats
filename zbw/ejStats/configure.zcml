@@ -21,14 +21,6 @@
         />
     
     
-    <browser:page
-        name="commentRating"
-        for="*"
-        template="browser/commentRating.pt"
-        permission="cmf.ManagePortal"
-        />
-
-
 
 
 </configure>

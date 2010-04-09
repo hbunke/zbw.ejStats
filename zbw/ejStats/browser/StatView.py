@@ -23,9 +23,7 @@ from Products.Five.browser import BrowserView
 
 from Products.AdvancedQuery import Eq, And, Or, Ge, Le
 
-from iqpp.rating.interfaces import IRatingsManager
 from iqpp.clickcounting.interfaces import IClickCounting
-
 from zbw.ejCitations.interfaces import ICitec
 
 
@@ -76,9 +74,6 @@ class IStatView(Interface):
         """number of recommendations and articles recommended
         """
 
-    def countRatings():
-        """counts number of ratings overall and articles that have been rated
-        """
 
     def countAuthors():
         """counts number of authors
@@ -118,20 +113,6 @@ class IStatView(Interface):
         """
         returns the most recent paper with citations
         """
-
-    def getRatedComments():
-        """
-        returns all comments with ratings
-        """
-
-    def getCommentRating():
-        """returns rating of comment
-        """
-
-    def countCommentRating():
-        """counts number of ratings for each comment
-        """
-
 
 
 class StatView(BrowserView):
@@ -291,40 +272,6 @@ class StatView(BrowserView):
         result = "%s Articles recommended by %s users (%s recommendations overall)" % (a, users, recommendations)
         return result
 
-    def countRatings(self):
-        """get amount of ratings and articles with ratings
-        """
-        catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog.searchResults(portal_type = "JournalPaper")
-
-        articles = []
-        ratings = 0
-        user = []
-
-        for brain in brains:
-            obj = brain.getObject()
-            objID = obj.getId()
-            rm = IRatingsManager(obj)
-            rating = rm.computeAverage(id = 'score')
-            amount_ratings = rm.countAmountRatings(id = 'score')
-            rating_liste = rm.getRatings(id = 'score')
-            if rating > 0:
-                articles.append(obj)
-                ratings += amount_ratings
-                for entry in rating_liste:
-                    
-                    #die loesung aus countRecommendations mit Set() funktioniert hier nicht. 
-                    # Frage ist, was effizienter ist
-                    if entry.user not in user:
-                        user.append(entry.user)
-           
-
-        a = len(articles)
-        users = len(user)
-        result = "%s Articles rated by %s users (%s ratings overall)" % (a, users, ratings)
-        
-        return result
-                
         
     def countAuthors(self):
         """counts authors
@@ -468,31 +415,6 @@ class StatView(BrowserView):
         return citedPapers[:1]
 
     
-    def getRatedComments(self):
-        """
-        """
-        catalog = getToolByName(self.context, "portal_catalog")
-        query = And(Eq('portal_type', "Comment"), Ge('rating_helpful', 0))
-        brains = catalog.evalAdvancedQuery(query, (("rating_helpful", "desc"),))
-        
-        return  [brain.getObject() for brain in brains]
-
-
-    def getCommentRating(self):
-        """
-        """
-        rm = IRatingsManager(self.context)
-        rating = rm.computeAverage(id = 'helpful')
-        return rating
-
-    def countCommentRating(self):
-        """
-        """
-        rm = IRatingsManager(self.context)
-        cr = rm.countAmountRatings(id='helpful')
-        return cr
-
-
 
 
 

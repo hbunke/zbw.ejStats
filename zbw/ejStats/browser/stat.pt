@@ -16,20 +16,12 @@
     <div>
         <p>Some statistical data for economics. For now it is only
             available to site managers.</p> 
-        <p>Webstatistiken:<br />
-        <a href="http://capella.ifw-kiel.de/webalizer/">http://capella.ifw-kiel.de/webalizer/</a> (internes)<br />
-        <a href="http://www.uni-kiel.de/stat/economics-ejournal/">http://www.uni-kiel.de/stat/economics-ejournal/</a> (Uni RZ).
+        
+        <p>Webstatistik (Logfileanalyse):<br />
+            <a href="http://capella.ifw-kiel.de/webalizer/">http://134.245.92.11:8080/awstats/awstat.pl?config=ejournal</a> <br />
+            (nur aus ZBW und IfW erreichbar!)
         </p>
 
-        <p>new: <a href="dlThisMonth">downloads this month</a> and <a href="dlLastMonth">downloads last month</a></p>
-
-        <!--
-        <p style="margin-bottom:18px;">
-        <img
-        src="http://capella.ifw-kiel.de/webalizer/usage.png"
-        alt="usage graph internes" />
-        </p>
-        //-->
 
         <p>
             <strong>Registered Readers:</strong> 
@@ -71,24 +63,6 @@
             <span tal:content="context/@@stats/comments">Kommentare</span>
         </p>
 
-        <p>
-            <strong>Rated comments:</strong> <span 
-                tal:define="ratedComments context/@@stats/getRatedComments"
-                tal:content="python:len(ratedComments)">number</span> 
-            [<a href="#"
-                tal:attributes="href string:${portal_url}/commentRating">Show all
-                rated Comments</a>]
-         </p>
-
-
-        
-        
-
-
-         <p>
-          <strong>Ratings:</strong> <span
-                tal:content="context/@@stats/countRatings">Ratings</span>
-          </p>
 
         <p>
             <strong>Recommendations:</strong> 
