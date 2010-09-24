@@ -18,7 +18,7 @@
             available to site managers.</p> 
         
         <p>Webstatistik (Logfileanalyse):<br />
-            <a href="http://capella.ifw-kiel.de/webalizer/">http://134.245.92.11:8080/awstats/awstat.pl?config=ejournal</a> <br />
+            <a href="http://134.245.92.11:8080/awstats/awstats.pl?config=ejournal">http://134.245.92.11:8080/awstats/awstats.pl?config=ejournal</a> <br />
             (nur aus ZBW und IfW erreichbar!)
         </p>
 
