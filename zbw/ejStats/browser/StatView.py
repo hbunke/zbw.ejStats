@@ -25,7 +25,7 @@ from Products.AdvancedQuery import Eq, And, Or, Ge, Le
 
 from iqpp.clickcounting.interfaces import IClickCounting
 from zbw.ejCitations.interfaces import ICitec
-
+from zbw.ejCrossref.interfaces import ICrossrefCitations, ICrossrefItem
 
 class IStatView(Interface):
     """
@@ -112,6 +112,15 @@ class IStatView(Interface):
     def recentCitation():
         """
         returns the most recent paper with citations
+        """
+
+    def count_crossref_citations():
+        """
+        returns number of citations at crossref (local query)
+        """
+
+    def articles_with_crossref_citations():
+        """returns all articles with crossref citations
         """
 
 
@@ -414,24 +423,46 @@ class StatView(BrowserView):
                     citedPapers.append((obj, count))
         return citedPapers[:1]
 
-    
+
+    def count_crossref_citations(self):
+        """
+        """
+        catalog = getToolByName(self.context, "portal_catalog") 
+        #interface marker abfrage abstrakter als nur journalarticle. I really love interfaces
+        brains = catalog(object_provides=ICrossrefItem.__identifier__)
+        #brains = catalog(portal_type="JournalPaper")
+        citations = 0
+        for brain in brains:
+            obj = brain.getObject()
+            crossref_citations = ICrossrefCitations(obj)
+            nr_of_citations = crossref_citations.count_citations()
+            citations += nr_of_citations
+        return citations
+
+    def articles_with_citations(self):
+        """
+        """
+        catalog = getToolByName(self.context, "portal_catalog") 
+        #interface marker abfrage abstrakter als nur journalarticle. I really love interfaces
+        brains = catalog(object_provides=ICrossrefItem.__identifier__)
+        cited_articles = []
+        for brain in brains:
+            obj = brain.getObject()
+            crossref_citations = ICrossrefCitations(obj)
+            nr_of_citations = crossref_citations.count_citations()
+            if nr_of_citations > 0:
+                cited_articles.append((obj, nr_of_citations))
+        return cited_articles
+
+    def cited_in(self):
+        """
+        """
+        citations = ICrossrefCitations(self.context)
+        journals = citations.cited_in()
+        return journals
 
 
 
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-
+        
 
 
