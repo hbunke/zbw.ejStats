@@ -436,7 +436,8 @@ class StatView(BrowserView):
             obj = brain.getObject()
             crossref_citations = ICrossrefCitations(obj)
             nr_of_citations = crossref_citations.count_citations()
-            citations += nr_of_citations
+            if nr_of_citations:
+                citations += nr_of_citations
         return citations
 
     def articles_with_citations(self):
@@ -458,8 +459,10 @@ class StatView(BrowserView):
         """
         """
         citations = ICrossrefCitations(self.context)
-        journals = citations.cited_in()
-        return journals
+        if citations.has_citations():
+            journals = citations.cited_in()
+            return journals
+        return None
 
 
 
