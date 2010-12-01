@@ -24,6 +24,7 @@ setup(name='zbw.ejStats',
       zip_safe=False,
       install_requires=[
           'setuptools',
+      #    'reportlab',
           # -*- Extra requirements: -*-
       ],
       entry_points="""

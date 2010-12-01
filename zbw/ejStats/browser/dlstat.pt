@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master">
+
+<metal:head fill-slot="top_slot"
+            tal:define="dummy python:request.set('disable_border',1)" />
+
+
+<div metal:fill-slot="main">
+
+
+    <h1>
+        Economics Statistics
+    </h1>
+
+<div style="border-bottom: 1px solid #B3C5D6;
+    border-top: 1px solid #B3C5D6; text-align:center; margin:25px 0px 25px 0px; font-weight:bold;">
+    <a href="@@stats" title="Other Statistics">Default</a> | <span
+        style="background:#DEE7EC; color:grey;">Downloads</span>
+        </div>
+
+    
+    <p>
+            <strong>Downloads Journalarticles:</strong> 
+            <span tal:content="view/downloadsJP">JP</span>
+        (average: <span tal:content="view/averageJP">durchsc</span>)
+        <br />
+
+        <strong>Downloads Journalarticles incl. corresponding
+            Discussionpapers:</strong> <span
+            tal:content="view/downloadsJPDP">JP+DP</span>
+        (average: <span
+            tal:content="view/averageJPDP">average</span>)
+
+        <br />
+        <strong>Downloads Discussionpapers:</strong> 
+        <span tal:content="view/downloadsDP">DP</span>
+         (average: <span tal:content="view/averageDP">durchsc</span>)
+        <br />
+        <strong>Downloads overall: </strong><span
+            tal:content="view/downloadsSUM">SUM</span> (average:
+        <span
+            tal:content="view/averageSUM">Durchschnitt</span>)
+        </p>
+
+        
+    <h2>Downloads per month</h2>
+       
+    <table class="listing" style="min-width:50%">
+        <thead>
+        <th>Month</th><th>Downloads</th>
+    </thead>
+    <tbody>
+        <tal:block 
+        tal:repeat="month view/dl_listed" 
+        tal:define="min python:view.dl_minmax()[0];
+                    max python:view.dl_minmax()[1]">
+            <tr style="font-size:11px; border-bottom:1px solid #DEE7EC;
+                text-align:center">
+                <td tal:content="python:month[0]" />
+                    <td>
+                        
+                        <tal:comment tal:replace="nothing">
+                        <!-- erstmal raus, weil meistens der aktuelle Monat der
+                        mit den wenigsten Downloads sein dürfte 
+                        <span tal:omit-tag="python:month[1] != min"
+                            style="color:red;">-->
+                            </tal:comment>
+
+                            <span tal:omit-tag="python:month[1] != max"
+                                style="color:green;">
+                            <span tal:content="python:month[1]" />
+                            </span>
+                        </td>
+                        </tr>
+        </tal:block>
+        </tbody>
+        <table>
+        
+
+                <!--     <div tal:content="view/dl_chart" /> -->
+
+
+</div>
+
+</html>
+

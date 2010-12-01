@@ -8,8 +8,7 @@
    <browser:page
         name="stats"
         for = "*"
-        class=".browser.StatView"
-        template = "browser/stat.pt"
+        class=".browser.stat.StatView"
         permission = "cmf.ManagePortal" />
 
 
@@ -20,7 +19,12 @@
         permission="cmf.ManagePortal"
         />
     
-    
+    <browser:page
+        name="stats_dl"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        class=".browser.dlstat.DownloadStatistic"
+        permission="cmf.ManagePortal"
+        />
 
 
 </configure>

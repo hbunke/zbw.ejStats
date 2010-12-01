@@ -16,8 +16,14 @@
     <div>
         <p>Some statistical data for economics. For now it is only
             available to site managers.</p> 
+
+        <div style="border-bottom: 1px solid #B3C5D6;
+    border-top: 1px solid #B3C5D6; text-align:center; margin:25px 0px 25px 0px; font-weight:bold;">
+    <span style="background:#DEE7EC;">Default</span> | <a href="@@stats_dl" title="Download
+                Statistics">Downloads</a>
+        </div>
         
-        <p>Webstatistik (Logfileanalyse):<br />
+        <p><strong>Webstatistik (Logfileanalyse):</strong><br />
             <a href="http://134.245.92.11:8080/awstats/awstats.pl?config=ejournal">http://134.245.92.11:8080/awstats/awstats.pl?config=ejournal</a> <br />
             (nur aus ZBW und IfW erreichbar!)
         </p>
@@ -25,63 +31,41 @@
 
         <p>
             <strong>Registered Readers:</strong> 
-            <span tal:content="context/@@stats/countReaders">Reg. Readers</span>
+            <span tal:content="view/countReaders">Reg. Readers</span>
         </p>
 
         <p>
             <strong>Journalarticles:</strong> 
-            <span tal:content="context/@@stats/countJP">Zahl d. Journalpaper</span><br />
+            <span tal:content="view/countJP">Zahl d. Journalpaper</span><br />
             <strong>Discussionpapers:</strong> 
-            <span tal:content="context/@@stats/countDP">Zahl d. DP</span><br />
+            <span tal:content="view/countDP">Zahl d. DP</span><br />
         </p>
 
-        <p>
-            <strong>Downloads Journalarticles:</strong> 
-            <span tal:content="context/@@stats/downloadsJP">JP</span>
-        (average: <span tal:content="context/@@stats/averageJP">durchsc</span>)
-        <br />
-
-        <strong>Downloads Journalarticles incl. corresponding
-            Discussionpapers:</strong> <span
-            tal:content="context/@@stats/downloadsJPDP">JP+DP</span>
-        (average: <span
-            tal:content="context/@@stats/averageJPDP">average</span>)
-
-        <br />
-        <strong>Downloads Discussionpapers:</strong> 
-        <span tal:content="context/@@stats/downloadsDP">DP</span>
-         (average: <span tal:content="context/@@stats/averageDP">durchsc</span>)
-        <br />
-        <strong>Downloads overall: </strong><span
-            tal:content="context/@@stats/downloadsSUM">SUM</span> (average:
-        <span
-            tal:content="context/@@stats/averageSUM">Durchschnitt</span>)
-        </p>
-
+        
         <p>
             <strong>Comments:</strong> 
-            <span tal:content="context/@@stats/comments">Kommentare</span>
+            <span tal:content="view/comments">Kommentare</span>
         </p>
 
 
         <p>
             <strong>Recommendations:</strong> 
-            <span tal:content="context/@@stats/countRecommended">Recommended</span>
+            <span tal:content="view/countRecommended">Recommended</span>
         </p>
 
         <p>
             <strong>Authors:</strong>
             <span
-                tal:content="context/@@stats/countAuthors">Authors</span>
+                tal:content="view/countAuthors">Authors</span>
         </p>
 
         <p>
             <strong>Citations (Citec/Repec):</strong>
-            <span tal:content="context/@@stats/countCitations">Citations</span>
+            <span tal:content="view/countCitations">Citations</span>
             (Discussionpaper: <span
-                tal:content="context/@@stats/countCitedDP">discussiopaper</span>; 
+                tal:content="view/countCitedDP">discussiopaper</span>; 
             Journalarticle: <span
-                tal:content="context/@@stats/countCitedJP">Journalarticle</span>)
+                tal:content="view/countCitedJP">Journalarticle</span>)
             
 
         </p>
@@ -95,7 +79,7 @@
 
             <p><strong>Most cited:</strong></p>
             <div style="margin-left:20px; font-size:10px"
-                tal:define = "citedpapers context/@@stats/maxCitations"
+                tal:define = "citedpapers view/maxCitations"
                 tal:repeat="tuple python:citedpapers[:1]">
                 <p tal:define="paper python:tuple[0];
                                citations python:tuple[1]">
@@ -119,7 +103,7 @@
         
          <p><strong>Most recently published Paper with citations:</strong></p>
             <div style="margin-left:20px; font-size:10px" 
-                tal:repeat="tuple context/@@stats/recentCitation">
+                tal:repeat="tuple view/recentCitation">
                 <p tal:define="paper python:tuple[0];
                                citations python:tuple[1]">
                     <span
@@ -139,9 +123,9 @@
 
                 <h2>Citations (Crossref)</h2>
                 <tal:block tal:define="cited_articles
-                    context/@@stats/articles_with_citations;
+                    view/articles_with_citations;
                     number_of_citations
-                    context/@@stats/count_crossref_citations;"
+                    view/count_crossref_citations;"
                     >
                     <p>Updated once a week</p>
                     <p><strong>Overall Number of Citations: </strong><span
