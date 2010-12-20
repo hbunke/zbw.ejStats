@@ -11,6 +11,7 @@ zbw.ejStats.egg-info/not-zip-safe
 zbw.ejStats.egg-info/requires.txt
 zbw.ejStats.egg-info/top_level.txt
 zbw/ejStats/__init__.py
+zbw/ejStats/test.py
 zbw/ejStats/utils.py
 zbw/ejStats/browser/__init__.py
 zbw/ejStats/browser/dlstat.py

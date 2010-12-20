@@ -7,99 +7,31 @@
 #TODO citations unterschieden nach dp und ja
 
 
-#python imports
 from sets import Set
 import operator
 
-# Zope imports 
-from zope.interface import Interface
+from zope.interface import implements
 
-# CMF imports
 from Products.CMFCore.utils import getToolByName
 
-# Five imports
 from Products.Five.browser import BrowserView
 
-from Products.AdvancedQuery import Eq, And, Or, Ge, Le
+from Products.AdvancedQuery import Eq, And, Or
 
 from zbw.ejCitations.interfaces import ICitec
 from zbw.ejCrossref.interfaces import ICrossrefCitations, ICrossrefItem
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from zbw.ejStats.utils import format_number
+from zbw.ejStats.browser.interfaces import IStatView
 from plone.memoize.view import memoize
-
-
-
-
-class IStatView(Interface):
-    """
-    """
-    def comments():
-        """count total number of portal comments
-        """
-
-    def countDP():
-        """counts all discussionpapers
-        """
-
-    def countJP():
-        """counts all journalpapers
-        """
-
-    
-    def countReaders():
-        """number of registered readers
-        """
-
-    def countRecommended():
-        """number of recommendations and articles recommended
-        """
-
-
-    def countAuthors():
-        """counts number of authors
-        """
-
-    def countAssociateEditors():
-        """counts number of AEs
-        """
-
-    def countCitations():
-        """sums all Citec Citations
-        """
-
-    def topCitations():
-        """gets the most cited papers
-        """
-
-    def countCitedDP():
-        """counts all cited Discussionpapers
-        """
-
-    def countCitedJP():
-        """counts all cited Journalarticles
-        """
-
-    def recentCitation():
-        """
-        returns the most recent paper with citations
-        """
-
-    def count_crossref_citations():
-        """
-        returns number of citations at crossref (local query)
-        """
-
-    def articles_with_crossref_citations():
-        """returns all articles with crossref citations
-        """
 
 
 class StatView(BrowserView):
     """provides statistics
     """
-       
+    implements(IStatView)
+
     __call__ = ViewPageTemplateFile('stat.pt')
    
     
@@ -108,7 +40,8 @@ class StatView(BrowserView):
         """
         """
         catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog(portal_type=('JournalPaper', 'DiscussionPaper'), sort_on="created", sort_order="descending")
+        brains = catalog(portal_type=('JournalPaper', 'DiscussionPaper'), 
+                sort_on="created", sort_order="descending")
         return brains
 
 
@@ -146,7 +79,8 @@ class StatView(BrowserView):
         """
         catalog = getToolByName(self.context, "portal_catalog")
         query = And(Eq("portal_type", "eJMember"),
-                    Or(Eq("review_state", "public"), Eq("review_state", "private"))
+                    Or(Eq("review_state", "public"), 
+                        Eq("review_state", "private"))
                     )
                
         brains = catalog.evalAdvancedQuery(query,)
@@ -174,7 +108,8 @@ class StatView(BrowserView):
 
         a = len(articles)
         users = len(Set(user))
-        result = "%s Articles recommended by %s users (%s recommendations overall)" % (a, users, recommendations)
+        result = "%s Articles recommended by %s users \
+                (%s recommendations overall)" % (a, users, recommendations)
         return result
 
         
@@ -279,7 +214,8 @@ class StatView(BrowserView):
         """
         """
         catalog = getToolByName(self.context, "portal_catalog") 
-        #interface marker abfrage abstrakter als nur journalarticle. I really love interfaces
+        #interface marker abfrage abstrakter als nur journalarticle. 
+        #I really love interfaces
         brains = catalog(object_provides=ICrossrefItem.__identifier__)
         #brains = catalog(portal_type="JournalPaper")
         citations = 0
@@ -295,7 +231,8 @@ class StatView(BrowserView):
         """
         """
         catalog = getToolByName(self.context, "portal_catalog") 
-        #interface marker abfrage abstrakter als nur journalarticle. I really love interfaces
+        #interface marker abfrage abstrakter als nur journalarticle. 
+        #I really love interfaces
         brains = catalog(object_provides=ICrossrefItem.__identifier__)
         cited_articles = []
         for brain in brains:
