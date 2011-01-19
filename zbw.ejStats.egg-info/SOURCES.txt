@@ -1,6 +1,7 @@
 README.txt
 setup.cfg
 setup.py
+docs/HISTORY.txt
 zbw/__init__.py
 zbw.ejStats.egg-info/PKG-INFO
 zbw.ejStats.egg-info/SOURCES.txt
@@ -11,10 +12,15 @@ zbw.ejStats.egg-info/not-zip-safe
 zbw.ejStats.egg-info/requires.txt
 zbw.ejStats.egg-info/top_level.txt
 zbw/ejStats/__init__.py
+zbw/ejStats/configure.zcml
 zbw/ejStats/test.py
 zbw/ejStats/utils.py
 zbw/ejStats/browser/__init__.py
+zbw/ejStats/browser/cited.pt
+zbw/ejStats/browser/crossrefstat.pt
 zbw/ejStats/browser/crossrefstat.py
+zbw/ejStats/browser/dlstat.pt
 zbw/ejStats/browser/dlstat.py
 zbw/ejStats/browser/interfaces.py
+zbw/ejStats/browser/stat.pt
 zbw/ejStats/browser/stat.py
