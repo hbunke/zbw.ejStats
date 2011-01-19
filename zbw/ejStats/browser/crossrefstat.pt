@@ -1,0 +1,93 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master">
+
+<metal:head fill-slot="top_slot"
+            tal:define="dummy python:request.set('disable_border',1)" />
+
+
+<div metal:fill-slot="main">
+
+
+    <h1>
+        Economics Statistics
+    </h1>
+
+<p>Some statistical data for economics. For now it is only
+            available to site managers.</p> 
+
+        <div style="border-bottom: 1px solid #B3C5D6;
+    border-top: 1px solid #B3C5D6; text-align:center; margin:25px 0px 25px 0px; font-weight:bold;">
+  <a href="@@stats" title="Other Statistics">Default</a> | <a href="@@stats_dl" title="Download 
+      Statistics">Downloads</a> |
+  <span style="background:#DEE7EC; color:grey;">Crossref Citations</span>
+
+        </div>
+        
+
+        <tal:block tal:define="cited_articles
+            view/articles_with_citations;
+            number_of_citations view/count_crossref_citations;"
+            >
+            <p>Updated once a week</p>
+            <p><strong>Overall Number of Citations: </strong><span
+                    tal:content="number_of_citations" /></p>
+                    <div>
+                    
+                <ol>
+                <div tal:repeat="article cited_articles">
+                    <tal:block tal:define="obj python:article[0]; nr
+                        python:article[1];">
+                        <li>[<span tal:content="obj/getId" />] 
+                        <span
+                            tal:content="obj/@@paperView/getAuthorsForTitle"
+                            />:
+                        <a tal:attributes="href obj/absolute_url">
+                            <span tal:content="obj/Title" /> </a> <br />
+                        <span tal:content="nr" /> Citation(s): 
+                        <ul
+                            tal:repeat="citation obj/@@stats/cited_in">
+                            <li style="margin-left:10px; font-size:11px">
+                                <span
+                                    tal:content="python:citation['authors']"
+                                    />: 
+                                <span tal:content="python:citation['title']" />, 
+                                <em><span
+                                    tal:content="python:citation['journal']"
+                                    /></em>, 
+                                <tal:block
+                                    tal:condition="python:citation.has_key('doi')">
+                                    <tal:block tal:define="doi
+                                        python:citation['doi']">
+                                    <a
+                                        tal:attributes="href string:http://dx.doi.org/${doi}">
+                                        doi:<span
+                                            tal:content="doi"
+                                            />
+                                    </a>
+                                </tal:block>
+                                </tal:block>
+                            </li>
+                                
+                            
+                        </ul>
+
+                    </li>
+                    </tal:block>
+                
+                </div>
+            </ol>
+                </div>
+
+            </tal:block>
+    
+
+        
+
+
+
+
+    </div>
+
+</html>

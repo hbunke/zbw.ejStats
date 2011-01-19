@@ -20,7 +20,9 @@
         <div style="border-bottom: 1px solid #B3C5D6;
     border-top: 1px solid #B3C5D6; text-align:center; margin:25px 0px 25px 0px; font-weight:bold;">
     <span style="background:#DEE7EC;">Default</span> | <a href="@@stats_dl" title="Download
-                Statistics">Downloads</a>
+                Statistics">Downloads</a> | <a
+        href="@@stats_crossref" title="Crossref Citations">Crossref Citations</a>
+
         </div>
         
         <p><strong>Webstatistik (Logfileanalyse):</strong><br />
@@ -121,42 +123,7 @@
 
                 </div>
 
-                <h2>Citations (Crossref)</h2>
-                <tal:block tal:define="cited_articles
-                    view/articles_with_citations;
-                    number_of_citations
-                    view/count_crossref_citations;"
-                    >
-                    <p>Updated once a week</p>
-                    <p><strong>Overall Number of Citations: </strong><span
-                            tal:content="number_of_citations" /></p>
-                    <div style="margin-left:20px; font-size:10px">
-                        <h3>Cited articles</h3>
-                        <div tal:repeat="article cited_articles">
-                            <tal:block tal:define="obj python:article[0]; nr
-                                python:article[1];">
-                                <span
-                                    tal:content="obj/@@paperView/getAuthorsForTitle"
-                                    /> <br />
-                             <a tal:attributes="href obj/absolute_url">
-                                 <span tal:content="obj/Title" /> </a> <br />
-                             <span tal:content="nr" /> Citation(s) in: 
-                             <ul
-                                 tal:repeat="journal obj/@@stats/cited_in">
-                                 <li style="margin-left:10px" tal:content="journal" />
-                             </ul>
-                         </tal:block>
-                             
-                        </div>
-                    
-                        </div>
-
-                    </tal:block>
-            
-
-        
-
-
+           
 
 
     </div>

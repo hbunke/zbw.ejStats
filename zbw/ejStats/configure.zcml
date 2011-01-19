@@ -26,6 +26,14 @@
         permission="cmf.ManagePortal"
         />
 
+    <browser:page
+        name="stats_crossref"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        class=".browser.crossrefstat.CrossrefCitationsView"
+        permission="cmf.ManagePortal"
+        />
+
+
 
 </configure>
 

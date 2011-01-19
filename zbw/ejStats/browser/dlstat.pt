@@ -12,11 +12,14 @@
     <h1>
         Economics Statistics
     </h1>
+<p>Some statistical data for economics. For now it is only
+            available to site managers.</p> 
 
 <div style="border-bottom: 1px solid #B3C5D6;
     border-top: 1px solid #B3C5D6; text-align:center; margin:25px 0px 25px 0px; font-weight:bold;">
     <a href="@@stats" title="Other Statistics">Default</a> | <span
-        style="background:#DEE7EC; color:grey;">Downloads</span>
+        style="background:#DEE7EC; color:grey;">Downloads</span> | <a
+        href="@@stats_crossref" title="Crossref Citations">Crossref Citations</a>
         </div>
 
     
