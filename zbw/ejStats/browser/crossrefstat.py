@@ -4,6 +4,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 #from plone.memoize.view import memoize
 from Products.CMFCore.utils import getToolByName
 from zbw.ejCrossref.interfaces import ICrossrefCitations, ICrossrefItem
+from zope.component import getMultiAdapter
 
 
 class CrossrefCitationsView(BrowserView):
@@ -15,8 +16,8 @@ class CrossrefCitationsView(BrowserView):
    #def __init__(self, context, request):
    #    self.context = context
    #    self.request = request
-   #    self.statsview = getMultiAdapter((self.context, self.context.request),
-   #            name="stats")
+   #    self.crossrefstats = getMultiAdapter((self.context, self.context.request),
+   #            name="stats_crossref")
 
     def count_crossref_citations(self):
         """

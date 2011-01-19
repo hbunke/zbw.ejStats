@@ -47,7 +47,7 @@
                             <span tal:content="obj/Title" /> </a> <br />
                         <span tal:content="nr" /> Citation(s): 
                         <ul
-                            tal:repeat="citation obj/@@stats/cited_in">
+                            tal:repeat="citation obj/@@stats_crossref/cited_in">
                             <li style="margin-left:10px; font-size:11px">
                                 <span
                                     tal:content="python:citation['authors']"

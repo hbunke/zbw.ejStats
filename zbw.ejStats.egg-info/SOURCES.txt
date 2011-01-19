@@ -14,6 +14,7 @@ zbw/ejStats/__init__.py
 zbw/ejStats/test.py
 zbw/ejStats/utils.py
 zbw/ejStats/browser/__init__.py
+zbw/ejStats/browser/crossrefstat.py
 zbw/ejStats/browser/dlstat.py
 zbw/ejStats/browser/interfaces.py
 zbw/ejStats/browser/stat.py
