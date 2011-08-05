@@ -41,7 +41,7 @@
                         python:article[1];">
                         <li>[<span tal:content="obj/getId" />] 
                         <span
-                            tal:content="obj/@@paperView/getAuthorsForTitle"
+                            tal:content="obj/@@paperView/authors_as_string"
                             />:
                         <a tal:attributes="href obj/absolute_url">
                             <span tal:content="obj/Title" /> </a> <br />

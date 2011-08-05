@@ -86,7 +86,7 @@
                 <p tal:define="paper python:tuple[0];
                                citations python:tuple[1]">
                     <span
-                        tal:content="paper/@@paperView/getAuthorsForTitle">autoren</span><br />
+                        tal:content="paper/@@paperView/authors_as_string">autoren</span><br />
                     <a tal:attributes="href paper/absolute_url" href="#">
                         <span tal:content="paper/Title">title</span></a>
                         <br />
@@ -109,7 +109,7 @@
                 <p tal:define="paper python:tuple[0];
                                citations python:tuple[1]">
                     <span
-                        tal:content="paper/@@paperView/getAuthorsForTitle">autoren</span><br />
+                        tal:content="paper/@@paperView/authors_as_string">autoren</span><br />
                     <a tal:attributes="href paper/absolute_url" href="#">
                         <span tal:content="paper/Title">title</span></a>
                         <br />
