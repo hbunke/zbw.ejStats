@@ -51,31 +51,35 @@
        
     <table class="listing" style="min-width:50%">
         <thead>
-        <th>Month</th><th>Downloads</th>
+            <th>Month</th><th><strong>All
+                    Downloads</strong></th><th>Discussion Papers</th><th>Journal Articles</th>
+            
+            
+            <th tal:define="days python:view.request['days']">
+                <form method="post" action="">
+                jünger als 
+                    <input tal:attributes="value days" name="days" size="2" type="text" />
+                    Tage
+                
+                </form>
+                </th>
     </thead>
     <tbody>
         <tal:block 
-        tal:repeat="month view/dl_listed" 
-        tal:define="min python:view.dl_minmax()[0];
-                    max python:view.dl_minmax()[1]">
+        tal:repeat="month view/dl_listed">
             <tr style="font-size:11px; border-bottom:1px solid #DEE7EC;
                 text-align:center">
                 <td tal:content="python:month[0]" />
-                    <td>
-                        
-                        <tal:comment tal:replace="nothing">
-                        <!-- erstmal raus, weil meistens der aktuelle Monat der
-                        mit den wenigsten Downloads sein dürfte 
-                        <span tal:omit-tag="python:month[1] != min"
-                            style="color:red;">-->
-                            </tal:comment>
-
-                            <span tal:omit-tag="python:month[1] != max"
-                                style="color:green;">
-                            <span tal:content="python:month[1]" />
-                            </span>
-                        </td>
-                        </tr>
+                <td style="font-weight:bold;" tal:content="python:month[1]['Sum']" />
+                <td tal:content="python:month[1]['DiscussionPaper']" />
+                <td tal:content="python:month[1]['JournalPaper']" />
+                <td><span tal:content="python:month[1]['new']" /> 
+                    (<span
+                        tal:content="python:round(float(month[1]['new'])*100/month[1]['Sum'], 2)"
+                        />%)
+                    </td>
+                            
+             </tr>
         </tal:block>
         </tbody>
         <table>

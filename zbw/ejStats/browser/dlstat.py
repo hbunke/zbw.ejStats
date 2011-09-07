@@ -3,6 +3,9 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.app.annotation.interfaces import IAnnotations
 from plone.memoize.view import memoize
+from Products.ATContentTypes.utils import DT2dt
+import datetime
+
 
 # FOR LATER USE
 #from reportlab.graphics.shapes import Drawing
@@ -25,6 +28,8 @@ class DownloadStatistic(BrowserView):
         self.request = request
         self.statsview = getMultiAdapter((self.context, self.context.request),
                 name="stats")
+        if not self.request.has_key('days') or self.request['days'] == "":
+            self.request.set('days', 30)
 
 
     @memoize
@@ -35,19 +40,31 @@ class DownloadStatistic(BrowserView):
         clickdates_view = getMultiAdapter((self.context, self.context.request),
                 name='clickdates')
         objects = clickdates_view._getClickdatesObjects()
-
+        #import pdb; pdb.set_trace()
         dl_gesamt = {}
         
         for item in objects:
             ann = IAnnotations(item)
             dates = ann['hbxt.clickdates']
+            pt = item.portal_type
             for key in dates.keys():
-                dlmonth = len(dates[key])
-                if dl_gesamt.has_key(key):
-                    dl_gesamt[key] = dl_gesamt[key] + dlmonth
-                else:
-                    dl_gesamt[key] = dlmonth
+                dl_item = len(dates[key])
+                
+                #check for necessary keys
+                if not dl_gesamt.has_key(key):
+                    dl_gesamt[key] = {'Sum' : 0}
+                if not dl_gesamt[key].has_key(pt):
+                    dl_gesamt[key][pt] = 0
+                if not dl_gesamt[key].has_key('new'):
+                    dl_gesamt[key]['new'] = 0
+                
+                dl_gesamt[key]['Sum'] += dl_item
+                dl_gesamt[key][pt] += dl_item
 
+                was_new = self.__was_new(dates[key], item.created())
+                dl_gesamt[key]['new'] += was_new
+                
+        
         #we have to rewrite the keys here because datetime stores month 1-9
         #without leading zero, which is needed for sorting
         dl_sorted = {}
@@ -63,9 +80,30 @@ class DownloadStatistic(BrowserView):
         #XXX this is only for ejournal use! remove may 2009 since we have not
         #data for the whole month
         del dl_sorted['2009-05']
-
         return dl_sorted
        
+
+    def __was_new(self, dates, created):
+        """
+        checks if article was recent when download occured
+        """
+        #days an article is considered to be new
+        #delta = 30 
+        delta = self.request['days']
+        delta = int(delta)
+
+        #convert old Zope DateTime to python datetime
+        obj_date = DT2dt(created)
+        d = datetime.timedelta(days=delta)
+        counter = 0
+        for clickdate in dates:
+            e = clickdate - d
+            if obj_date > e:
+                counter += 1
+        return counter
+
+    
+
                 
     def dl_listed(self):
         """
@@ -79,16 +117,16 @@ class DownloadStatistic(BrowserView):
         
         return dl_listed
 
-    def dl_minmax(self):
-        """
-        """
-        dl_sorted = self.__dl_over_time()
-        dlvalues = dl_sorted.values()
-        dlvalues = sorted(dlvalues)
-        dl_min = dlvalues[0]
-        dl_max = dlvalues[-1]
-        #import pdb; pdb.set_trace()
-        return (dl_min, dl_max)
+  # def dl_minmax(self):
+  #     """
+  #     """
+  #     dl_sorted = self.__dl_over_time()
+  #     dlvalues = dl_sorted.values()
+  #     dlvalues = sorted(dlvalues)
+  #     dl_min = dlvalues[0]
+  #     dl_max = dlvalues[-1]
+  #     #import pdb; pdb.set_trace()
+  #     return (dl_min, dl_max)
 
 
 
