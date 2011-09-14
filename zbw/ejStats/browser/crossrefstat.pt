@@ -50,27 +50,22 @@
                             tal:repeat="citation obj/@@stats_crossref/cited_in">
                             <li style="margin-left:10px; font-size:11px">
                                 <span
-                                    tal:content="python:citation['authors']"
+                                    tal:content="citation/authors"
                                     />: 
-                                <span tal:content="python:citation['title']" />, 
+                                <span tal:content="citation/title" />, 
                                 <em><span
-                                    tal:content="python:citation['journal']"
+                                        tal:content="citation/journal"
                                     /></em>, 
                                 <tal:block
-                                    tal:condition="python:citation.has_key('doi')">
-                                    <tal:block tal:define="doi
-                                        python:citation['doi']">
-                                    <a
-                                        tal:attributes="href string:http://dx.doi.org/${doi}">
+                                    tal:condition="citation/doi">
+                                        <a
+                                            tal:attributes="href string:http://dx.doi.org/${citation/doi}">
                                         doi:<span
-                                            tal:content="doi"
+                                            tal:content="citation/doi"
                                             />
                                     </a>
                                 </tal:block>
-                                </tal:block>
                             </li>
-                                
-                            
                         </ul>
 
                     </li>

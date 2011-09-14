@@ -55,7 +55,7 @@
                     Downloads</strong></th><th>Discussion Papers</th><th>Journal Articles</th>
             
             
-            <th tal:define="days python:view.request['days']">
+            <th tal:define="days view/request/days">
                 <form method="post" action="">
                 jünger als 
                     <input tal:attributes="value days" name="days" size="2" type="text" />
