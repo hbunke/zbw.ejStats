@@ -21,8 +21,12 @@ from zbw.ejStats.utils import format_number
 class DownloadStatistic(BrowserView):
     """
     """
-    __call__ = ViewPageTemplateFile('dlstat.pt')
-    
+    template = ViewPageTemplateFile('dlstat.pt')
+
+    def __call__(self):
+        self.request.set('disable_border', True)
+        return self.template()
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -94,6 +98,7 @@ class DownloadStatistic(BrowserView):
 
         #convert old Zope DateTime to python datetime
         obj_date = DT2dt(created)
+        
         d = datetime.timedelta(days=delta)
         counter = 0
         for clickdate in dates:
@@ -130,29 +135,29 @@ class DownloadStatistic(BrowserView):
 
 
 
-   #def dl_chart(self):
-   #    """
-   #    """
-   #    drawing = Drawing(200, 100)
+  # def dl_chart(self):
+  #     """
+  #     """
+  #     drawing = Drawing(200, 100)
 
-   #    data = [ 
-   #            (13, 5, 20, 22, 37, 45, 19, 4), 
-   #            (14, 10, 21, 28, 38, 46, 25, 5)
-   #            ]   
+  #     data = [ 
+  #             (13, 5, 20, 22, 37, 45, 19, 4), 
+  #             (14, 10, 21, 28, 38, 46, 25, 5)
+  #             ]   
 
-   #    lc = HorizontalLineChart()
+  #     lc = HorizontalLineChart()
 
-   #    lc.x = 20
-   #    lc.y = 10
-   #    lc.height = 85
-   #    lc.width = 170 
-   #    lc.data = data
-   #    lc.lines.symbol = makeMarker('Circle')
+  #     lc.x = 20
+  #     lc.y = 10
+  #     lc.height = 85
+  #     lc.width = 170 
+  #     lc.data = data
+  #     lc.lines.symbol = makeMarker('Circle')
 
-   #    drawing.add(lc)
-   #        
-   #    drawing.save(fnRoot='test', formats=['png'])
-   #    #return drawing
+  #     drawing.add(lc)
+  #         
+  #     drawing.save(fnRoot='test', formats=['png'])
+  #     return drawing
 
     @memoize    
     def downloadsJP(self):

@@ -16,8 +16,6 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.Five.browser import BrowserView
 
-from Products.AdvancedQuery import Eq, And, Or
-
 from zbw.ejCitations.interfaces import ICitec
 from zbw.ejCrossref.interfaces import ICrossrefCitations, ICrossrefItem
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -32,8 +30,13 @@ class StatView(BrowserView):
     """
     implements(IStatView)
 
-    __call__ = ViewPageTemplateFile('stat.pt')
-   
+    template = ViewPageTemplateFile('stat.pt')
+    
+    def __call__(self):
+        self.request.set('disable_border', True)
+        return self.template()
+
+
     
     @memoize
     def get_all_papers(self):
@@ -50,7 +53,7 @@ class StatView(BrowserView):
         """
         catalog = getToolByName(self.context, "portal_catalog")
          
-        brains = catalog.searchResults(portal_type = "Comment")
+        brains = catalog(portal_type = "Comment")
 
         amount = len(brains)
         return amount
@@ -60,7 +63,7 @@ class StatView(BrowserView):
         """number of discussion papers
         """
         catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog.searchResults(portal_type = "DiscussionPaper")
+        brains = catalog(portal_type = "DiscussionPaper")
         result = len(brains)
         return result
 
@@ -69,7 +72,7 @@ class StatView(BrowserView):
         """number of journal papers
         """
         catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog.searchResults(portal_type = "JournalPaper")
+        brains = catalog(portal_type = "JournalPaper")
         result = len(brains)
         return result
        
@@ -78,17 +81,13 @@ class StatView(BrowserView):
         """number of registered readers
         """
         catalog = getToolByName(self.context, "portal_catalog")
-        query = And(Eq("portal_type", "eJMember"),
-                    Or(Eq("review_state", "public"), 
-                        Eq("review_state", "private"))
-                    )
-               
-        brains = catalog.evalAdvancedQuery(query,)
-        #brains = catalog.searchResults(portal_type = "eJMember")
+        brains = catalog(portal_type="eJMember", 
+                review_state=("public", "private"))
         
         result = len(brains)
         return format_number(result)
 
+    
     def countRecommended(self):
         """counts articles with recommendations
         """
@@ -117,13 +116,10 @@ class StatView(BrowserView):
         """counts authors
         """
         catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog.searchResults(portal_type = "Author")
+        brains = catalog(portal_type = "Author")
         result = len(brains)
-        
-        
         return result
 
-       
 
     def countCitations(self):
         """count all citec citations

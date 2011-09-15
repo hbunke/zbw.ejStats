@@ -2,9 +2,7 @@
       lang="en"
       metal:use-macro="here/main_template/macros/master">
 
-<metal:head fill-slot="top_slot"
-            tal:define="dummy python:request.set('disable_border',1)" />
-
+<metal:head fill-slot="top_slot" />
 
 <div metal:fill-slot="main">
 
@@ -18,7 +16,8 @@
             available to site managers.</p> 
 
         <div style="border-bottom: 1px solid #B3C5D6;
-    border-top: 1px solid #B3C5D6; text-align:center; margin:25px 0px 25px 0px; font-weight:bold;">
+            border-top: 1px solid #B3C5D6; text-align:center; 
+            margin:25px 0px 25px 0px; font-weight:bold;">
     <span style="background:#DEE7EC;">Default</span> | <a href="@@stats_dl" title="Download
                 Statistics">Downloads</a> | <a
         href="@@stats_crossref" title="Crossref Citations">Crossref Citations</a>
@@ -26,7 +25,8 @@
         </div>
         
         <p><strong>Webstatistik (Logfileanalyse):</strong><br />
-            <a href="http://134.245.92.11:8080/awstats/awstats.pl?config=ejournal">http://134.245.92.11:8080/awstats/awstats.pl?config=ejournal</a> <br />
+            <a href="http://134.245.92.11:8080/awstats/awstats.pl?config=ejournal">
+                http://134.245.92.11:8080/awstats/awstats.pl?config=ejournal</a> <br />
             (nur aus ZBW und IfW erreichbar!)
         </p>
 

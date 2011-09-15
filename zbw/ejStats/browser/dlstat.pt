@@ -2,9 +2,7 @@
       lang="en"
       metal:use-macro="here/main_template/macros/master">
 
-<metal:head fill-slot="top_slot"
-            tal:define="dummy python:request.set('disable_border',1)" />
-
+<metal:head fill-slot="top_slot" />
 
 <div metal:fill-slot="main">
 
@@ -66,16 +64,18 @@
     </thead>
     <tbody>
         <tal:block 
-        tal:repeat="month view/dl_listed">
+        tal:repeat="item view/dl_listed">
             <tr style="font-size:11px; border-bottom:1px solid #DEE7EC;
-                text-align:center">
-                <td tal:content="python:month[0]" />
-                <td style="font-weight:bold;" tal:content="python:month[1]['Sum']" />
-                <td tal:content="python:month[1]['DiscussionPaper']" />
-                <td tal:content="python:month[1]['JournalPaper']" />
-                <td><span tal:content="python:month[1]['new']" /> 
+                text-align:center"
+                tal:define="month python:item[0];
+                            dict python:item[1]">
+                <td tal:content="month" />
+                <td style="font-weight:bold;" tal:content="dict/Sum" />
+                <td tal:content="dict/DiscussionPaper" />
+                <td tal:content="dict/JournalPaper" />
+                <td><span tal:content="dict/new" /> 
                     (<span
-                        tal:content="python:round(float(month[1]['new'])*100/month[1]['Sum'], 2)"
+                        tal:content="python:round(float(dict['new'])*100/dict['Sum'], 2)"
                         />%)
                     </td>
                             
@@ -85,7 +85,6 @@
         <table>
         
 
-                <!--     <div tal:content="view/dl_chart" /> -->
 
 
 </div>

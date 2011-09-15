@@ -11,13 +11,13 @@ class CrossrefCitationsView(BrowserView):
     """
     which articles have been cited by whom?
     """
-    __call__ = ViewPageTemplateFile('crossrefstat.pt')
-    
-   #def __init__(self, context, request):
-   #    self.context = context
-   #    self.request = request
-   #    self.crossrefstats = getMultiAdapter((self.context, self.context.request),
-   #            name="stats_crossref")
+
+    template = ViewPageTemplateFile('crossrefstat.pt')
+
+    def __call__(self):
+        self.request.set('disable_border', True)
+        return self.template()
+
 
     def count_crossref_citations(self):
         """
