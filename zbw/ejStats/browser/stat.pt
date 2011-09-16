@@ -46,7 +46,8 @@
         
         <p>
             <strong>Comments:</strong> 
-            <span tal:content="view/comments">Kommentare</span>
+            <span tal:content="view/comments">Kommentare</span><br />
+            <a href="@@most_commented">Most commented (50)</a>
         </p>
 
 

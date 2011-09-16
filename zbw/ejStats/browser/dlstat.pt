@@ -20,6 +20,7 @@
         href="@@stats_crossref" title="Crossref Citations">Crossref Citations</a>
         </div>
 
+
     
     <p>
             <strong>Downloads Journalarticles:</strong> 
@@ -43,6 +44,11 @@
         <span
             tal:content="view/averageSUM">Durchschnitt</span>)
         </p>
+<p>
+        <a href="most_downloaded">Most Downloaded (50)</a><br />
+        <a href="@@most_downloaded_last_3_months">Most Downloaded last 3 months
+            (50)</a>
+    </p>
 
         
     <h2>Downloads per month</h2>
