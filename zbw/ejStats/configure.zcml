@@ -32,6 +32,19 @@
         class=".browser.crossrefstat.CrossrefCitationsView"
         permission="cmf.ManagePortal"
         />
+    
+    <browser:page
+        name="most_downloaded"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        class=".browser.most.Downloaded"
+        permission="zope2.Public" />
+
+    <browser:page
+        name="most_commented"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        class= ".browser.most.Commented"
+        permission="zope2.Public" />
+
 
 
 
