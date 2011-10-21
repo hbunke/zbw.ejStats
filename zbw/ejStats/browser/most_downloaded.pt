@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="eJournal">
+
+<!-- <metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" /> -->
+
+  <div metal:fill-slot="main"
+      tal:define=" papers_per_page python:10;
+                   papers view/get_most_downloaded_JP;
+                   Batch python:modules['Products.CMFPlone'].Batch;
+                   b_size python:30;b_start python:0;b_start request/b_start | b_start;">
+
+      <h1>
+          Most Downloaded Journalarticles
+      </h1>
+                
+      <div tal:condition="not: papers">
+          <p i18n:translate="ejournal-no-papers">
+            There are no papers.
+          </p>
+      </div>
+
+      <div tal:condition="papers">        
+          <table class="eJournal_paper_list">             
+             <metal:paper_list_entry use-macro="context/ejournal_macros/macros/paper_list_entry" />         
+          </table>         
+      </div>
+  </div>
+
+</html>
+

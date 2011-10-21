@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="eJournal">
+
+
+  <div metal:fill-slot="main"
+      tal:define="papers view/get_most_commented;" >
+
+      <h1>
+          Most Commented Articles
+      </h1>
+                
+      <div tal:condition="not: papers">
+          <p i18n:translate="ejournal-no-papers">
+            There are no papers.
+          </p>
+      </div>
+
+      <div tal:condition="papers">        
+        <ol>
+                <li tal:repeat="article papers">
+                    <tal:block
+                    tal:define="obj python:article[0];
+                                comments python:article[1]">
+                                <span tal:replace="obj/@@paperView/authors_as_string" />
+                    <br />
+                    <a style="font-weight:bold;" href="#" tal:attributes="href obj/absolute_url">
+                        <span tal:replace="obj/Title" />
+                    </a> (<span tal:replace="comments" />)
+                </tal:block>
+                </li>
+                        
+            </ol>
+
+
+      </div>
+  </div>
+
+</html>
