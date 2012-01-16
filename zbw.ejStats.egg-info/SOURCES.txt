@@ -24,5 +24,8 @@ zbw/ejStats/browser/crossrefstat.py
 zbw/ejStats/browser/dlstat.pt
 zbw/ejStats/browser/dlstat.py
 zbw/ejStats/browser/interfaces.py
+zbw/ejStats/browser/most.py
+zbw/ejStats/browser/most_commented.pt
+zbw/ejStats/browser/most_downloaded.pt
 zbw/ejStats/browser/stat.pt
 zbw/ejStats/browser/stat.py
