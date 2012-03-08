@@ -81,7 +81,7 @@
 
 
             <p><strong>Most cited:</strong></p>
-            <div style="margin-left:20px; font-size:10px"
+            <div style="margin-left:20px; font-size:11px"
                 tal:define = "citedpapers view/maxCitations"
                 tal:repeat="tuple python:citedpapers[:1]">
                 <p tal:define="paper python:tuple[0];
@@ -105,7 +105,7 @@
             </div>
         
          <p><strong>Most recently published Paper with citations:</strong></p>
-            <div style="margin-left:20px; font-size:10px" 
+            <div style="margin-left:20px; font-size:11px" 
                 tal:repeat="tuple view/recentCitation">
                 <p tal:define="paper python:tuple[0];
                                citations python:tuple[1]">

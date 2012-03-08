@@ -1,32 +1,24 @@
 # -*- coding: UTF-8 -*-
 
 # Dr. Hendrik Bunke, hendrik.bunke@ifw-kiel.de
-
 # provides statistics of economics papers
-
-#TODO citations unterschieden nach dp und ja
 
 
 from sets import Set
 import operator
-
 from zope.interface import implements
-
 from Products.CMFCore.utils import getToolByName
-
 from Products.Five.browser import BrowserView
-
 from zbw.ejCitations.interfaces import ICitec
-from zbw.ejCrossref.interfaces import ICrossrefCitations, ICrossrefItem
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
 from zbw.ejStats.utils import format_number
 from zbw.ejStats.browser.interfaces import IStatView
 from plone.memoize.view import memoize
 
 
 class StatView(BrowserView):
-    """provides statistics
+    """
+    provides statistics
     """
     implements(IStatView)
 
@@ -35,7 +27,6 @@ class StatView(BrowserView):
     def __call__(self):
         self.request.set('disable_border', True)
         return self.template()
-
 
     
     @memoize
@@ -52,9 +43,7 @@ class StatView(BrowserView):
         """counts comments on discussion papers and journalarticles
         """
         catalog = getToolByName(self.context, "portal_catalog")
-         
         brains = catalog(portal_type = "Comment")
-
         amount = len(brains)
         return amount
         
@@ -137,22 +126,20 @@ class StatView(BrowserView):
         for brain in brains:
             obj = brain.getObject()
             citec = ICitec(obj)
-            if citec.hasHandle():
-                rss = citec.getCitecRSS()
-                count = len(rss['entries'])
-                if count > 0:
-                    citedPapers.append((obj, count))
+            count = citec.count_citations()
+            if count > 0:
+                citedPapers.append((obj, count))
 
-        mostCitedPapers = sorted(citedPapers, key=operator.itemgetter(1))
-        mostCitedPapers.reverse()
+        mostCitedPapers = sorted(citedPapers, key=operator.itemgetter(1),
+                reverse=True)
         return mostCitedPapers
 
 
     def countCitedDP(self):
-        """return number of counted discussionpapers
+        """
+        return number of counted discussionpapers
         """
         catalog = getToolByName(self.context, "portal_catalog")
-
         brains = catalog(portal_type="DiscussionPaper")
         
         citations = 0
@@ -160,19 +147,16 @@ class StatView(BrowserView):
         for brain in brains:
             obj = brain.getObject()
             citec = ICitec(obj)
-            if citec.hasHandle():
-                rss = citec.getCitecRSS()
-                count = len(rss['entries'])
-                if count > 0:
-                    citations += count
-
+            count = citec.count_citations()
+            citations += count
         return citations
 
+    
     def countCitedJP(self):
-        """return number of counted journalarticles
+        """
+        return number of counted journalarticles
         """
         catalog = getToolByName(self.context, "portal_catalog")
-
         brains = catalog(portal_type="JournalPaper")
         
         citations = 0
@@ -180,12 +164,8 @@ class StatView(BrowserView):
         for brain in brains:
             obj = brain.getObject()
             citec = ICitec(obj)
-            if citec.hasHandle():
-                rss = citec.getCitecRSS()
-                count = len(rss['entries'])
-                if count > 0:
-                    citations += count
-
+            count = citec.count_citations()
+            citations += count
         return citations
 
     
@@ -198,11 +178,10 @@ class StatView(BrowserView):
         for brain in brains:
             obj = brain.getObject()
             citec = ICitec(obj)
-            if citec.hasHandle():
-                rss = citec.getCitecRSS()
-                count = len(rss['entries'])
-                if count > 0:
-                    citedPapers.append((obj, count))
+            citec = ICitec(obj)
+            count = citec.count_citations()
+            if count > 0:
+                citedPapers.append((obj, count))
         return citedPapers[:1]
 
 
