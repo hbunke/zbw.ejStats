@@ -24,10 +24,15 @@
 
         </div>
         
-        <p><strong>Webstatistik (Logfileanalyse):</strong><br />
-            <a href="http://134.245.92.11:8080/awstats/awstats.pl?config=ejournal">
-                http://134.245.92.11:8080/awstats/awstats.pl?config=ejournal</a> <br />
-            (nur aus ZBW und IfW erreichbar!)
+        <p><strong>Web Statistics:</strong><br />
+            
+            <a href="https://www.google.com/analytics/web/?hl=de&pli=1#report/visitors-overview/a29037243w55000131p55971085/">
+            Google Analytics
+        </a><br />
+        <a href="https://application.etracker.com//login.php?sid=b772b3725a92819689660b6e0e4a2298&id=">
+        etracker
+    </a><br />
+    (for both you'll need to login)
         </p>
 
 
