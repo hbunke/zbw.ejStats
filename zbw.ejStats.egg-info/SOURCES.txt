@@ -1,5 +1,4 @@
 .hgignore
-.hgtags
 README.txt
 setup.cfg
 setup.py

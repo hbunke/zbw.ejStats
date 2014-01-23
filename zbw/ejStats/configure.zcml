@@ -45,6 +45,12 @@
         class= ".browser.most.Commented"
         permission="zope2.Public" />
 
+    <browser:page
+        name="most_downloaded_range"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        class=".browser.most.DownloadedRange"
+        permission="zope2.Public" />
+
 
 
 

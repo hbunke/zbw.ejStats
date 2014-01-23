@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="eJournal">
+
+
+  <div metal:fill-slot="main"
+      tal:define="articles view/downloads_in_range;
+                 date1 request/date1 | nothing;
+                 date2 request/date2 | nothing"
+                  >
+    
+
+      <h1>
+          Most Downloaded Papers between
+      </h1>
+                
+     
+   <p style="margin-top:18px;">
+        <form method="post" action=""
+        >
+            <input 
+                name="date1" type="date" tal:attributes="value date1" />
+            and <input name="date2" type="date" tal:attributes="value date2" />
+            <input class="context" type="submit" />
+        </form>
+    </p>
+
+    <div style="margin-top:50px;">        
+                
+     <div tal:condition="not: articles">
+          <p>
+            no papers found or no correct timerange given
+          </p>
+      </div>
+        
+      <div tal:condition="articles"
+           
+          tal:repeat="paper_dict articles">
+          <p tal:define="paper python:paper_dict['article'];
+                         downloads python:paper_dict['downloads']">
+         (<strong><span tal:content="downloads" /></strong>) 
+         <span
+            tal:content="paper/@@paperView/authors_as_string" /><br />
+            <a tal:attributes="href paper/absolute_url">
+            <span tal:content="paper/Title" />
+            </a>
+        <br />
+        <span tal:content="paper/Type" />; 
+        published 
+        <span
+            tal:content="paper/@@paperView/getTitleDate" />
+
+          </p>
+
+
+      </div>
+  
+  </div>
+
+
+  </div>
+
+</html>
+

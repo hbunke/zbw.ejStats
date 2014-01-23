@@ -25,7 +25,7 @@ setup(name='zbw.ejStats',
       install_requires=[
           'setuptools',
       #    'reportlab',
-          # -*- Extra requirements: -*-
+      #    'bda.intellidatetime==1.2'
       ],
       entry_points="""
       # -*- Entry points: -*-

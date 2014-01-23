@@ -50,6 +50,18 @@
             (50)</a>
     </p>
 
+    <p><a href="@@most_downloaded_range">Most Downloaded between:</a><br />
+        <form method="post" action="@@most_downloaded_range">
+            <input 
+                name="date1" type="date" />
+            and <input name="date2" type="date" />
+            <input class="context" type="submit" value="Submit" />
+        </form>
+    </p>
+
+    <p>&nbsp;</p>
+
+
         
     <h2>Downloads per month</h2>
        
@@ -77,9 +89,9 @@
                             dict python:item[1]">
                 <td tal:content="month" />
                 <td style="font-weight:bold;" tal:content="dict/Sum" />
-                <td tal:content="dict/DiscussionPaper" />
-                <td tal:content="dict/JournalPaper" />
-                <td><span tal:content="dict/new" /> 
+                <td tal:content="dict/DiscussionPaper | nothing" />
+                <td tal:content="dict/JournalPaper | nothing" />
+                <td><span tal:content="dict/new | nothing" /> 
                     (<span
                         tal:content="python:round(float(dict['new'])*100/dict['Sum'], 2)"
                         />%)
