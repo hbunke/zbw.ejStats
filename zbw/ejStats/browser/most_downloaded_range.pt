@@ -7,7 +7,10 @@
   <div metal:fill-slot="main"
       tal:define="articles view/downloads_in_range;
                  date1 request/date1 | nothing;
-                 date2 request/date2 | nothing"
+                 date2 request/date2 | nothing;
+                 pt_check view/pt_check;
+                 ja_check python:pt_check['ja'];
+                 dp_check python:pt_check['dp'];"
                   >
     
 
@@ -16,24 +19,40 @@
       </h1>
                 
      
-   <p style="margin-top:18px;">
-        <form method="post" action=""
+   <div style="margin-top:18px;">
+       <form method="post" action="" style="float:none;"
         >
-            <input 
-                name="date1" type="date" tal:attributes="value date1" />
+        <p style="font-size:14pt">   
+            <input name="date1" type="date" tal:attributes="value date1" />
             and <input name="date2" type="date" tal:attributes="value date2" />
+        </p>
+        <p style="font-size:12pt;">                
+            <input tal:attributes="checked ja_check"
+                type="checkbox" name="pt"
+                value="JournalPaper" /> Journalarticles
+            <input tal:attributes="checked dp_check"
+                type="checkbox" name="pt" 
+                value="DiscussionPaper" style="margin-left:20px;" /> Discussionpapers 
+        </p>
+        <p style="font-size:14pt;">
             <input class="context" type="submit" />
-        </form>
-    </p>
+        </p>
 
-    <div style="margin-top:50px;">        
+        </form>
+    </div>
+
+    <div style="margin-top:25px;" style="clear:all">        
                 
      <div tal:condition="not: articles">
           <p>
-            no papers found or no correct timerange given
+            no papers found, no correct timerange given, or no papertype given
           </p>
       </div>
         
+      <p tal:condition="articles" tal:define="dl_amount view/dl_amount" style="font-size:14pt">
+          Downloads overall: <strong><span tal:replace="dl_amount" /></strong>
+      </p>
+      
       <div tal:condition="articles"
            
           tal:repeat="paper_dict articles">

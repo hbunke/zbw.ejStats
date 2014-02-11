@@ -14,7 +14,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.app.annotation.interfaces import IAnnotations
 from Products.CMFCore.utils import getToolByName
 from iqpp.clickcounting.interfaces import IClickCounting
-
+from plone.memoize.view import memoize
 
 
 class Downloaded(BrowserView):
@@ -96,6 +96,8 @@ class DownloadedRange(BrowserView):
         self.context = context
         self.request = request
     
+    
+    @memoize
     def downloads_in_range(self):
         """
         """
@@ -118,9 +120,22 @@ class DownloadedRange(BrowserView):
         start = DateTime(2007,1,1)
         end = self._convert(self.request['date2'],'zope')
         date_range_query = { 'query':(start,end), 'range': 'min:max'}
+        
+        
+        pt = None
+        try:
+            pt = self.request['pt']
+        
+            if type(pt) == list:
+                pt = tuple(pt)
+            if type(pt) == str:
+                pt = (pt,)
+        except:
+            pass
+        
 
         brains = catalog(
-                portal_type = ('DiscussionPaper', 'JournalPaper'),
+                portal_type = pt,
                 created = date_range_query
         )
 
@@ -151,7 +166,36 @@ class DownloadedRange(BrowserView):
         return sorted(paper_list, key=itemgetter('downloads'), reverse=True)
 
 
-        
+    def dl_amount(self):
+        """
+        total number of downloads in given range and portal_type
+        """
+        papers = self.downloads_in_range()
+        number = 0
+        if papers:
+            for paper in papers:
+                number += paper['downloads']
+        return number
+
+    
+    def pt_check(self):
+        """
+        """
+        ja = 'checked'
+        dp = 'checked'
+        try:
+            pt = self.request['pt']
+            if not 'JournalPaper' in pt:
+                ja = ''
+            if not 'DiscussionPaper' in pt:
+                dp = ''
+        except:
+            pass
+        return {'ja': ja, 'dp': dp}
+            
+
+
+
     def _convert(self, date, dt=''):
         """
         """
