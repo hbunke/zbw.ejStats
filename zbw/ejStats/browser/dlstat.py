@@ -1,7 +1,7 @@
 from zope.component import getMultiAdapter
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 from plone.memoize.view import memoize
 from Products.ATContentTypes.utils import DT2dt
 import datetime
@@ -22,26 +22,28 @@ class DownloadStatistic(BrowserView):
     """
     """
     template = ViewPageTemplateFile('dlstat.pt')
+    
+        
 
     def __call__(self):
         self.request.set('disable_border', True)
-        return self.template()
-
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-        self.statsview = getMultiAdapter((self.context, self.context.request),
+        self.statsview = getMultiAdapter((self.context, self.request),
                 name="stats")
+
         if not self.request.has_key('days') or self.request['days'] == "":
             self.request.set('days', 30)
 
+        return self.template()
+    
+    
+            
 
     @memoize
     def __dl_over_time(self):
         """
         get a sorted dictionary with month as key
         """
-        clickdates_view = getMultiAdapter((self.context, self.context.request),
+        clickdates_view = getMultiAdapter((self.context, self.request),
                 name='clickdates')
         objects = clickdates_view._getClickdatesObjects()
         #import pdb; pdb.set_trace()
@@ -83,7 +85,11 @@ class DownloadStatistic(BrowserView):
         
         #XXX this is only for ejournal use! remove may 2009 since we have not
         #data for the whole month
-        del dl_sorted['2009-05']
+        delkey = '2009-05'
+        try:
+            del dl_sorted[delkey]
+        except:
+            pass
         return dl_sorted
        
 
@@ -200,8 +206,10 @@ class DownloadStatistic(BrowserView):
         jp = self.statsview.countJP()
         downloads = format_number(self.downloadsJP())
         #import pdb; pdb.set_trace()
-        average = downloads / jp
-        
+        if jp > 0 and downloads > 0:
+            average = downloads / jp
+        else:
+            average = 0
         return average
 
     @memoize
@@ -210,7 +218,11 @@ class DownloadStatistic(BrowserView):
         """
         dp = self.statsview.countDP()
         downloads = format_number(self.downloadsDP())
-        average = downloads / dp
+        
+        if dp > 0 and downloads > 0:
+            average = downloads / dp
+        else:
+            average = 0
 
         return average
 
@@ -228,7 +240,11 @@ class DownloadStatistic(BrowserView):
         
         downloads = format_number(self.downloadsSUM())
         p = self.statsview.countJP() + self.statsview.countDP()
-        average = downloads / p
+        
+        if downloads > 0 and p > 0:
+            average = downloads / p
+        else:
+            average = 0
 
         return average
     
@@ -261,7 +277,11 @@ class DownloadStatistic(BrowserView):
         """
         jp = self.statsview.countJP()
         downloads = format_number(self.downloadsJPDP())
-        average = downloads / jp
+
+        if downloads > 0 and jp > 0:
+            average = downloads / jp
+        else:
+            average = 0
 
         return format_number(average)
 

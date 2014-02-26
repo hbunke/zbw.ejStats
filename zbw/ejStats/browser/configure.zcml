@@ -1,0 +1,57 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:browser="http://namespaces.zope.org/browser">
+
+
+       
+    <browser:page
+        name="stats_dl"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        class=".dlstat.DownloadStatistic"
+        permission="cmf.ManagePortal"
+        />
+
+    <browser:page
+        name="stats"
+        for = "Products.CMFCore.interfaces.ISiteRoot"
+        class=".stat.StatView"
+        permission = "cmf.ManagePortal" />
+
+
+    <browser:page
+        name="mostCited"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        template = "cited.pt"
+        permission="cmf.ManagePortal"
+        />
+    
+        
+    <browser:page
+        name="stats_crossref"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        class=".crossrefstat.CrossrefCitationsView"
+        permission="cmf.ManagePortal"
+        />
+    
+    <browser:page
+        name="most_downloaded"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        class=".most.Downloaded"
+        permission="zope2.Public" />
+
+    <browser:page
+        name="most_commented"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        class= ".most.Commented"
+        permission="zope2.Public" />
+
+    <browser:page
+        name="most_downloaded_range"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        class=".most.DownloadedRange"
+        permission="zope2.Public" />
+
+
+
+</configure>
+
