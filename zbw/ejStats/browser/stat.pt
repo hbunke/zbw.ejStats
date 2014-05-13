@@ -54,12 +54,16 @@
             <span tal:content="view/comments">Kommentare</span><br />
             <a href="@@most_commented">Most commented (50)</a>
         </p>
-
-
+    
+        
+        <tal:comment replace="nothing">
+            <!--    
         <p>
             <strong>Recommendations:</strong> 
             <span tal:content="view/countRecommended">Recommended</span>
         </p>
+        -->
+        </tal:comment>
 
         <p>
             <strong>Authors:</strong>

@@ -77,28 +77,28 @@ class StatView(BrowserView):
         return format_number(result)
 
     
-    def countRecommended(self):
-        """counts articles with recommendations
-        """
-        brains = self.get_all_papers()
+   #def countRecommended(self):
+   #    """counts articles with recommendations
+   #    """
+   #    brains = self.get_all_papers()
 
-        articles = []
-        recommendations = 0
-        user = []
+   #    articles = []
+   #    recommendations = 0
+   #    user = []
 
-        for brain in brains:
-            obj = brain.getObject()
-            rc_by = obj.getRecommended_by()
-            if len(rc_by) > 0:
-                articles.append(obj)
-                recommendations += len(rc_by)
-                user.append(rc_by)
+   #    for brain in brains:
+   #        obj = brain.getObject()
+   #        rc_by = obj.getRecommended_by()
+   #        if len(rc_by) > 0:
+   #            articles.append(obj)
+   #            recommendations += len(rc_by)
+   #            user.append(rc_by)
 
-        a = len(articles)
-        users = len(Set(user))
-        result = "%s Articles recommended by %s users \
-                (%s recommendations overall)" % (a, users, recommendations)
-        return result
+   #    a = len(articles)
+   #    users = len(Set(user))
+   #    result = "%s Articles recommended by %s users \
+   #            (%s recommendations overall)" % (a, users, recommendations)
+   #    return result
 
         
     def countAuthors(self):
