@@ -5,53 +5,8 @@
            <!-- unfortunately browser:view with subpages does not work...
            -->
            
-   <browser:page
-        name="stats"
-        for = "*"
-        class=".browser.stat.StatView"
-        permission = "cmf.ManagePortal" />
-
-
-    <browser:page
-        name="mostCited"
-        for="*"
-        template = "browser/cited.pt"
-        permission="cmf.ManagePortal"
-        />
-    
-    <browser:page
-        name="stats_dl"
-        for="Products.CMFCore.interfaces.ISiteRoot"
-        class=".browser.dlstat.DownloadStatistic"
-        permission="cmf.ManagePortal"
-        />
-
-    <browser:page
-        name="stats_crossref"
-        for="*"
-        class=".browser.crossrefstat.CrossrefCitationsView"
-        permission="cmf.ManagePortal"
-        />
-    
-    <browser:page
-        name="most_downloaded"
-        for="Products.CMFCore.interfaces.ISiteRoot"
-        class=".browser.most.Downloaded"
-        permission="zope2.Public" />
-
-    <browser:page
-        name="most_commented"
-        for="Products.CMFCore.interfaces.ISiteRoot"
-        class= ".browser.most.Commented"
-        permission="zope2.Public" />
-
-    <browser:page
-        name="most_downloaded_range"
-        for="Products.CMFCore.interfaces.ISiteRoot"
-        class=".browser.most.DownloadedRange"
-        permission="zope2.Public" />
-
-
+   <include package=".browser" /> 
+   
 
 
 </configure>

@@ -11,7 +11,7 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 #from zope.interface import Interface
 #from zope.component import getMultiAdapter
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 from Products.CMFCore.utils import getToolByName
 from iqpp.clickcounting.interfaces import IClickCounting
 from plone.memoize.view import memoize
