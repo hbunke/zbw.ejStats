@@ -103,7 +103,8 @@ class DownloadStatistic(BrowserView):
         delta = int(delta)
 
         #convert old Zope DateTime to python datetime
-        obj_date = DT2dt(created)
+        obj_date = DT2dt(created).replace(tzinfo=None)
+        
         
         d = datetime.timedelta(days=delta)
         counter = 0
