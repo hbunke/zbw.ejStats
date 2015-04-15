@@ -28,7 +28,7 @@
         
     <browser:page
         name="stats_crossref"
-        for="Products.CMFCore.interfaces.ISiteRoot"
+        for="*"
         class=".crossrefstat.CrossrefCitationsView"
         permission="cmf.ManagePortal"
         />
