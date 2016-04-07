@@ -44,8 +44,7 @@ class StatView(BrowserView):
         """
         catalog = getToolByName(self.context, "portal_catalog")
         brains = catalog(portal_type = "Comment")
-        amount = len(brains)
-        return amount
+        return len(brains)
         
 
     def countDP(self):
@@ -53,8 +52,7 @@ class StatView(BrowserView):
         """
         catalog = getToolByName(self.context, "portal_catalog")
         brains = catalog(portal_type = "DiscussionPaper")
-        result = len(brains)
-        return result
+        return len(brains)
 
     
     def countJP(self):
@@ -62,8 +60,7 @@ class StatView(BrowserView):
         """
         catalog = getToolByName(self.context, "portal_catalog")
         brains = catalog(portal_type = "JournalPaper")
-        result = len(brains)
-        return result
+        return len(brains)
        
     
     def countReaders(self):
@@ -77,37 +74,13 @@ class StatView(BrowserView):
         return format_number(result)
 
     
-   #def countRecommended(self):
-   #    """counts articles with recommendations
-   #    """
-   #    brains = self.get_all_papers()
-
-   #    articles = []
-   #    recommendations = 0
-   #    user = []
-
-   #    for brain in brains:
-   #        obj = brain.getObject()
-   #        rc_by = obj.getRecommended_by()
-   #        if len(rc_by) > 0:
-   #            articles.append(obj)
-   #            recommendations += len(rc_by)
-   #            user.append(rc_by)
-
-   #    a = len(articles)
-   #    users = len(Set(user))
-   #    result = "%s Articles recommended by %s users \
-   #            (%s recommendations overall)" % (a, users, recommendations)
-   #    return result
-
         
     def countAuthors(self):
         """counts authors
         """
         catalog = getToolByName(self.context, "portal_catalog")
         brains = catalog(portal_type = "Author")
-        result = len(brains)
-        return result
+        return len(brains)
 
 
     def countCitations(self):
@@ -120,17 +93,9 @@ class StatView(BrowserView):
         """return list with most cited papers
         """
         brains = self.get_all_papers()
-
-        citedPapers = []
-
-        for brain in brains:
-            obj = brain.getObject()
-            citec = ICitec(obj)
-            count = citec.count_citations()
-            if count > 0:
-                citedPapers.append((obj, count))
-
-        mostCitedPapers = sorted(citedPapers, key=operator.itemgetter(1),
+        ot = ((brain.getObject(), count_citations(brain)) for brain in brains)
+        cited_papers = filter(lambda b: b[1] > 0, ot)
+        mostCitedPapers = sorted(cited_papers, key=operator.itemgetter(1),
                 reverse=True)
         return mostCitedPapers
 
@@ -141,15 +106,8 @@ class StatView(BrowserView):
         """
         catalog = getToolByName(self.context, "portal_catalog")
         brains = catalog(portal_type="DiscussionPaper")
-        
-        citations = 0
-       
-        for brain in brains:
-            obj = brain.getObject()
-            citec = ICitec(obj)
-            count = citec.count_citations()
-            citations += count
-        return citations
+        cn = map(count_citations, brains)
+        return sum(cn)
 
     
     def countCitedJP(self):
@@ -158,17 +116,9 @@ class StatView(BrowserView):
         """
         catalog = getToolByName(self.context, "portal_catalog")
         brains = catalog(portal_type="JournalPaper")
-        
-        citations = 0
-       
-        for brain in brains:
-            obj = brain.getObject()
-            citec = ICitec(obj)
-            count = citec.count_citations()
-            citations += count
-        return citations
+        cn = map(count_citations, brains)
+        return sum(cn)
 
-    
     def recentCitation(self):
         """
         """
@@ -178,11 +128,14 @@ class StatView(BrowserView):
         for brain in brains:
             obj = brain.getObject()
             citec = ICitec(obj)
-            citec = ICitec(obj)
             count = citec.count_citations()
             if count > 0:
                 citedPapers.append((obj, count))
         return citedPapers[:1]
 
 
-    
+def count_citations(brain):
+    obj = brain.getObject()
+    citec = ICitec(obj)
+    return citec.count_citations()
+

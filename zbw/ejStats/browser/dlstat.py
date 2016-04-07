@@ -46,7 +46,6 @@ class DownloadStatistic(BrowserView):
         clickdates_view = getMultiAdapter((self.context, self.request),
                 name='clickdates')
         objects = clickdates_view._getClickdatesObjects()
-        #import pdb; pdb.set_trace()
         dl_gesamt = {}
         
         for item in objects:
