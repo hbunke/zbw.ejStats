@@ -29,7 +29,7 @@
             <a href="https://www.google.com/analytics/web/?hl=de&pli=1#report/visitors-overview/a29037243w55000131p55971085/">
             Google Analytics
         </a><br />
-        <a href="https://application.etracker.com//login.php?sid=b772b3725a92819689660b6e0e4a2298&id=">
+        <a href="https://application.etracker.com/login.php?sid=b772b3725a92819689660b6e0e4a2298&id=">
         etracker
     </a><br />
     (for both you'll need to login)
@@ -43,15 +43,15 @@
 
         <p>
             <strong>Journalarticles:</strong> 
-            <span tal:content="view/countJP">Zahl d. Journalpaper</span><br />
+            <span tal:content="python:view.count_pt('JournalPaper')" /><br />
             <strong>Discussionpapers:</strong> 
-            <span tal:content="view/countDP">Zahl d. DP</span><br />
+            <span tal:content="python:view.count_pt('DiscussionPaper')" /><br />
         </p>
 
         
         <p>
             <strong>Comments:</strong> 
-            <span tal:content="view/comments">Kommentare</span><br />
+            <span tal:content="python:view.count_pt('Comment')" /><br />
             <a href="@@most_commented">Most commented (50)</a>
         </p>
     
@@ -68,16 +68,16 @@
         <p>
             <strong>Authors:</strong>
             <span
-                tal:content="view/countAuthors">Authors</span>
+                tal:content="python:view.count_pt('Author')" />
         </p>
 
         <p>
             <strong>Citations (Citec/Repec):</strong>
-            <span tal:content="view/countCitations">Citations</span>
+            <span tal:content="python:view.count_cited_pt(('DiscussionPaper', 'JournalPaper'))" />
             (Discussionpaper: <span
-                tal:content="view/countCitedDP">discussiopaper</span>; 
+                tal:content="python:view.count_cited_pt('DiscussionPaper')" />; 
             Journalarticle: <span
-                tal:content="view/countCitedJP">Journalarticle</span>)
+                tal:content="python:view.count_cited_pt('JournalPaper')" />)
             
 
         </p>
@@ -115,9 +115,9 @@
         
          <p><strong>Most recently published Paper with citations:</strong></p>
             <div style="margin-left:20px; font-size:11px" 
-                tal:repeat="tuple view/recentCitation">
-                <p tal:define="paper python:tuple[0];
-                               citations python:tuple[1]">
+                tal:repeat="rc view/recentCitation">
+                <p tal:define="paper python:rc[0];
+                               citations python:rc[1]">
                     <span
                         tal:content="paper/@@paperView/authors_as_string">autoren</span><br />
                     <a tal:attributes="href paper/absolute_url" href="#">

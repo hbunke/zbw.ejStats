@@ -3,9 +3,7 @@
 # Dr. Hendrik Bunke, hendrik.bunke@ifw-kiel.de
 # provides statistics of economics papers
 
-
-from sets import Set
-import operator
+from operator import itemgetter
 from zope.interface import implements
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
@@ -21,117 +19,49 @@ class StatView(BrowserView):
     provides statistics
     """
     implements(IStatView)
-
     template = ViewPageTemplateFile('stat.pt')
-    
+
     def __call__(self):
         self.request.set('disable_border', True)
         return self.template()
 
+    def get_brains(self, pt, **kwargs):
+        catalog = getToolByName(self.context, 'portal_catalog')
+        return catalog(portal_type=pt, **kwargs)
     
+    def count_pt(self, pt):
+        return len(self.get_brains(pt))
+
+    def count_cited_pt(self, pt):
+        return sum(map(count_citations, self.get_brains(pt)))
+
     @memoize
-    def get_all_papers(self):
-        """
-        """
-        catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog(portal_type=('JournalPaper', 'DiscussionPaper'), 
-                sort_on="created", sort_order="descending")
-        return brains
+    def get_all_cited_papers(self):
+        brains = self.get_brains(('JournalPaper', 'DiscussionPaper'))
+        return [(brain.getObject(), count_citations(brain)) for brain in brains
+                if count_citations(brain) > 0]
 
-
-    def comments(self):
-        """counts comments on discussion papers and journalarticles
-        """
-        catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog(portal_type = "Comment")
-        return len(brains)
-        
-
-    def countDP(self):
-        """number of discussion papers
-        """
-        catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog(portal_type = "DiscussionPaper")
-        return len(brains)
-
-    
-    def countJP(self):
-        """number of journal papers
-        """
-        catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog(portal_type = "JournalPaper")
-        return len(brains)
-       
-    
     def countReaders(self):
         """number of registered readers
         """
-        catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog(portal_type="eJMember", 
-                review_state=("public", "private"))
-        
+        brains = self.get_brains("eJMember", review_state=("public", "private"))
         result = len(brains)
         return format_number(result)
-
-    
-        
-    def countAuthors(self):
-        """counts authors
-        """
-        catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog(portal_type = "Author")
-        return len(brains)
-
-
-    def countCitations(self):
-        """count all citec citations
-        """
-        return self.countCitedDP() + self.countCitedJP()
-
     
     def maxCitations(self):
-        """return list with most cited papers
+        """return most cited papers
         """
-        brains = self.get_all_papers()
-        ot = ((brain.getObject(), count_citations(brain)) for brain in brains)
-        cited_papers = filter(lambda b: b[1] > 0, ot)
-        mostCitedPapers = sorted(cited_papers, key=operator.itemgetter(1),
-                reverse=True)
-        return mostCitedPapers
-
-
-    def countCitedDP(self):
-        """
-        return number of counted discussionpapers
-        """
-        catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog(portal_type="DiscussionPaper")
-        cn = map(count_citations, brains)
-        return sum(cn)
-
-    
-    def countCitedJP(self):
-        """
-        return number of counted journalarticles
-        """
-        catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog(portal_type="JournalPaper")
-        cn = map(count_citations, brains)
-        return sum(cn)
+        cited_papers = self.get_all_cited_papers()
+        return sorted(cited_papers, key=itemgetter(1), reverse=True)
 
     def recentCitation(self):
+        """return most recently published paper with citations
         """
-        """
-        brains = self.get_all_papers()
-        citedPapers = []
-
-        for brain in brains:
-            obj = brain.getObject()
-            citec = ICitec(obj)
-            count = citec.count_citations()
-            if count > 0:
-                citedPapers.append((obj, count))
-        return citedPapers[:1]
+        cited_papers = self.get_all_cited_papers()
+        fn = lambda t: (t[0], t[1], t[0].created())
+        ncp = map(fn, cited_papers)
+        maxi = lambda a, b: max(a, b, key=itemgetter(2))
+        return [reduce(maxi, ncp)]  # don't know why template wants list here
 
 
 def count_citations(brain):

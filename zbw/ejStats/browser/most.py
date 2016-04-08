@@ -171,11 +171,8 @@ class DownloadedRange(BrowserView):
         total number of downloads in given range and portal_type
         """
         papers = self.downloads_in_range()
-        number = 0
-        if papers:
-            for paper in papers:
-                number += paper['downloads']
-        return number
+        return sum(map(lambda p: p['downloads'], papers))
+        
 
     
     def pt_check(self):

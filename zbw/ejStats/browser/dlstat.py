@@ -203,7 +203,7 @@ class DownloadStatistic(BrowserView):
     def averageJP(self):
         """calculates average Download of Journalpapers
         """
-        jp = self.statsview.countJP()
+        jp = self.statsview.count_pt('JournalPaper')
         downloads = format_number(self.downloadsJP())
         #import pdb; pdb.set_trace()
         if jp > 0 and downloads > 0:
@@ -216,7 +216,7 @@ class DownloadStatistic(BrowserView):
     def averageDP(self):
         """calculates average download of Discussionpapers
         """
-        dp = self.statsview.countDP()
+        dp = self.statsview.count_pt('DiscussionPaper')
         downloads = format_number(self.downloadsDP())
         
         if dp > 0 and downloads > 0:
@@ -239,7 +239,7 @@ class DownloadStatistic(BrowserView):
         """
         
         downloads = format_number(self.downloadsSUM())
-        p = self.statsview.countJP() + self.statsview.countDP()
+        p = self.statsview.count_pt('JournalPaper') + self.statsview.count_pt('DiscussionPaper')
         
         if downloads > 0 and p > 0:
             average = downloads / p
@@ -253,7 +253,7 @@ class DownloadStatistic(BrowserView):
         Discussionpapers
         """
         catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog.searchResults(portal_type = "JournalPaper")
+        brains = catalog.searchResults(portal_type="JournalPaper")
         amount = 0
 
         for brain in brains:
@@ -275,7 +275,7 @@ class DownloadStatistic(BrowserView):
         """calculates average Downloads of Journalarticles incl. their
         correspondig Discussionpapers
         """
-        jp = self.statsview.countJP()
+        jp = self.statsview.count_pt('JournalPaper')
         downloads = format_number(self.downloadsJPDP())
 
         if downloads > 0 and jp > 0:
