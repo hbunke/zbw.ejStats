@@ -15,6 +15,7 @@ from zope.annotation.interfaces import IAnnotations
 from Products.CMFCore.utils import getToolByName
 from iqpp.clickcounting.interfaces import IClickCounting
 from plone.memoize.view import memoize
+from zbw.ejStats.utils import format_number
 
 
 class Downloaded(BrowserView):
@@ -171,7 +172,7 @@ class DownloadedRange(BrowserView):
         total number of downloads in given range and portal_type
         """
         papers = self.downloads_in_range()
-        return sum(map(lambda p: p['downloads'], papers))
+        return format_number(sum(map(lambda p: p['downloads'], papers)))
         
 
     

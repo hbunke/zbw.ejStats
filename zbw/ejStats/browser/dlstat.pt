@@ -53,8 +53,8 @@
     <p><a href="@@most_downloaded_range">Most Downloaded between:</a><br />
         <form method="post" action="@@most_downloaded_range">
             <input 
-                name="date1" type="date" />
-            and <input name="date2" type="date" />
+                name="date1" type="date" placeholder="YYYY-MM-DD"/>
+            and <input name="date2" type="date" placeholder="YYYY-MM-DD"/>
             <input class="context" type="submit" value="Submit" />
         </form>
     </p>

@@ -23,8 +23,8 @@
        <form method="post" action="" style="float:none;"
         >
         <p style="font-size:14pt">   
-            <input name="date1" type="date" tal:attributes="value date1" />
-            and <input name="date2" type="date" tal:attributes="value date2" />
+            <input name="date1" type="date" tal:attributes="value date1" placeholder="YYYY-MM-DD"/>
+            and <input name="date2" type="date" tal:attributes="value date2" placeholder="YYYY-MM-DD"/>
         </p>
         <p style="font-size:12pt;">                
             <input tal:attributes="checked ja_check"
@@ -48,14 +48,13 @@
             no papers found, no correct timerange given, or no papertype given
           </p>
       </div>
-        
-      <p tal:condition="articles" tal:define="dl_amount view/dl_amount" style="font-size:14pt">
+
+      <div tal:condition="articles">
+      <p  tal:define="dl_amount view/dl_amount" style="font-size:14pt">
           Downloads overall: <strong><span tal:replace="dl_amount" /></strong>
       </p>
       
-      <div tal:condition="articles"
-           
-          tal:repeat="paper_dict articles">
+      <div tal:repeat="paper_dict articles">
           <p tal:define="paper python:paper_dict['article'];
                          downloads python:paper_dict['downloads']">
          (<strong><span tal:content="downloads" /></strong>) 
@@ -71,9 +70,8 @@
             tal:content="paper/@@paperView/getTitleDate" />
 
           </p>
-
-
       </div>
+  </div>
   
   </div>
 
