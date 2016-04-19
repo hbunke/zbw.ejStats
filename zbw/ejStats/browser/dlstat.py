@@ -18,6 +18,12 @@ from iqpp.clickcounting.interfaces import IClickCounting
 from zbw.ejStats.utils import format_number
 
 
+def clickcount(obj):
+    cc = IClickCounting(obj)
+    return cc.getClicks()
+
+
+
 class DownloadStatistic(BrowserView):
     """
     """
@@ -36,6 +42,9 @@ class DownloadStatistic(BrowserView):
         return self.template()
     
     
+    def get_brains(self, pt, **kwargs):
+        catalog = getToolByName(self.context, 'portal_catalog')
+        return catalog(portal_type=pt, **kwargs)
             
 
     @memoize
@@ -120,14 +129,13 @@ class DownloadStatistic(BrowserView):
         """
         """
         dl_sorted = self.__dl_over_time()
-        dl_listed = []
         months = sorted(dl_sorted.iterkeys(),reverse=True)
-        for month in months:
-            tup = (month, dl_sorted[month])
-            dl_listed.append(tup)
+        return map(lambda m: (m, dl_sorted[m]), months)
         
-        return dl_listed
 
+  
+  
+  
   # def dl_minmax(self):
   #     """
   #     """
@@ -169,8 +177,8 @@ class DownloadStatistic(BrowserView):
     def downloadsJP(self):
         """counts downloads of all JournalPapers
         """
-        catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog.searchResults(portal_type = "JournalPaper")
+        
+        brains = self.get_brains('JournalPaper')
         amount = 0
 
         for brain in brains:
@@ -186,16 +194,9 @@ class DownloadStatistic(BrowserView):
     def downloadsDP(self):
         """counts downloads of all DiscussionPapers
         """
-        catalog = getToolByName(self.context, "portal_catalog")
-        brains = catalog.searchResults(portal_type = "DiscussionPaper")
-        amount = 0
-
-        for brain in brains:
-            obj = brain.getObject()
-            cc = IClickCounting(obj)
-            downloads = cc.getClicks()
-            amount +=downloads
-
+        brains = self.get_brains('DiscussionPaper')
+        objects = [brain.getObject() for brain in brains]
+        amount = sum(map(clickcount, objects))
         return format_number(amount)
 
 
@@ -284,4 +285,6 @@ class DownloadStatistic(BrowserView):
             average = 0
 
         return format_number(average)
+
+
 
