@@ -24,8 +24,8 @@
     
     <p>
             <strong>Downloads Journalarticles:</strong> 
-            <span tal:content="view/downloadsJP">JP</span>
-        (average: <span tal:content="view/averageJP">durchsc</span>)
+            <span tal:content="python:view.downloads('JournalPaper')">JP</span>
+            (average: <span tal:content="python:view.average_downloads('JournalPaper')" />)
         <br />
 
         <strong>Downloads Journalarticles incl. corresponding
@@ -36,8 +36,8 @@
 
         <br />
         <strong>Downloads Discussionpapers:</strong> 
-        <span tal:content="view/downloadsDP">DP</span>
-         (average: <span tal:content="view/averageDP">durchsc</span>)
+        <span tal:content="python:view.downloads('DiscussionPaper')">DP</span>
+        (average: <span tal:content="python:view.average_downloads('DiscussionPaper')" />)
         <br />
         <strong>Downloads overall: </strong><span
             tal:content="view/downloadsSUM">SUM</span> (average:

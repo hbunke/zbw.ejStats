@@ -29,6 +29,7 @@ class StatView(BrowserView):
         catalog = getToolByName(self.context, 'portal_catalog')
         return catalog(portal_type=pt, **kwargs)
     
+    @memoize
     def count_pt(self, pt):
         return len(self.get_brains(pt))
 

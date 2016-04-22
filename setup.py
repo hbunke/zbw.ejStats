@@ -24,7 +24,7 @@ setup(name='zbw.ejStats',
       zip_safe=False,
       install_requires=[
           'setuptools',
-      #    'toolz',
+          'toolz',
       #    'reportlab',
       #    'bda.intellidatetime==1.2'
       ],
